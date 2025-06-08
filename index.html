@@ -105,18 +105,25 @@
         }
 
         /* Specific styles for calendar table */
+    @media (max-width: 600px) {
+        #calendarPage table {
+            font-size: 0.75rem;
+            min-width: 100%;
+        }
+        
         #calendarPage table th,
         #calendarPage table td {
-            min-width: 80px;
+            min-width: 36px;
             /* Ensure columns are wide enough */
             text-align: center;
             vertical-align: top;
-            height: 80px;
+            height: 36px;
             /* Make cells taller */
             position: relative;
             cursor: pointer;
             /* Indicate clickable days */
             transition: background-color 0.2s;
+            padding: 2px 4px;
         }
 
         #calendarPage table td:hover {
@@ -131,7 +138,7 @@
         }
 
         #calendarPage table td div {
-            font-size: 0.75rem;
+            font-size: 0.65rem;
             /* text-xs */
             line-height: 1rem;
             /* leading-none */
@@ -145,7 +152,7 @@
             /* Hide overflow */
             text-overflow: ellipsis;
             /* Add ellipsis */
-            padding: 0 4px;
+            padding: 0 2px;
             /* Small padding */
         }
 

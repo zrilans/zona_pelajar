@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,53 +10,77 @@
     <style>
         body {
             font-family: 'Inter', sans-serif;
-            background-color: #f0f4f8; /* Soft neutral background */
-            color: #333; /* Default text color */
+            background-color: #f0f4f8;
+            /* Soft neutral background */
+            color: #333;
+            /* Default text color */
         }
+
         /* Custom scrollbar for sidebar */
         .sidebar::-webkit-scrollbar {
             width: 8px;
         }
+
         .sidebar::-webkit-scrollbar-track {
-            background: #1A202C; /* Darker track for dark sidebar */
+            background: #1A202C;
+            /* Darker track for dark sidebar */
             border-radius: 10px;
         }
+
         .sidebar::-webkit-scrollbar-thumb {
-            background: #4A5568; /* Darker thumb */
+            background: #4A5568;
+            /* Darker thumb */
             border-radius: 10px;
         }
+
         .sidebar::-webkit-scrollbar-thumb:hover {
             background: #64748B;
         }
+
         /* Modal styles */
         .modal {
-            display: none; /* Hidden by default */
-            position: fixed; /* Stay in place */
-            z-index: 1000; /* Sit on top */
+            display: none;
+            /* Hidden by default */
+            position: fixed;
+            /* Stay in place */
+            z-index: 1000;
+            /* Sit on top */
             left: 0;
             top: 0;
-            width: 100%; /* Full width */
-            height: 100%; /* Full height */
-            overflow: auto; /* Enable scroll if needed */
-            background-color: rgba(0,0,0,0.7); /* Darker overlay */
+            width: 100%;
+            /* Full width */
+            height: 100%;
+            /* Full height */
+            overflow: auto;
+            /* Enable scroll if needed */
+            background-color: rgba(0, 0, 0, 0.7);
+            /* Darker overlay */
             justify-content: center;
             align-items: center;
         }
+
         .modal-content {
             background-color: #fefefe;
             margin: auto;
-            padding: 2.5rem; /* Increased padding */
-            border-radius: 1rem; /* More rounded */
-            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3); /* Stronger shadow */
+            padding: 2.5rem;
+            /* Increased padding */
+            border-radius: 1rem;
+            /* More rounded */
+            box-shadow: 0 15px 25px rgba(0, 0, 0, 0.3);
+            /* Stronger shadow */
             width: 90%;
-            max-width: 550px; /* Slightly wider */
+            max-width: 550px;
+            /* Slightly wider */
             position: relative;
             animation: fadeIn 0.3s ease-out;
-            border: 1px solid #e2e8f0; /* Subtle border */
+            border: 1px solid #e2e8f0;
+            /* Subtle border */
         }
+
         .close-button {
             color: #aaa;
-            font-size: 2rem; /* Larger close button */
+            font-size: 2rem;
+            /* Larger close button */
             font-weight: bold;
             position: absolute;
             top: 0.8rem;
@@ -63,15 +88,18 @@
             cursor: pointer;
             transition: color 0.2s;
         }
+
         .close-button:hover,
         .close-button:focus {
             color: #555;
             text-decoration: none;
         }
+
         /* Hide pages by default, show active one */
         .page-content {
             display: none;
         }
+
         .page-content.active {
             display: block;
         }
@@ -79,55 +107,80 @@
         /* Specific styles for calendar table */
         #calendarPage table th,
         #calendarPage table td {
-            min-width: 80px; /* Ensure columns are wide enough */
+            min-width: 80px;
+            /* Ensure columns are wide enough */
             text-align: center;
             vertical-align: top;
-            height: 80px; /* Make cells taller */
+            height: 80px;
+            /* Make cells taller */
             position: relative;
-            cursor: pointer; /* Indicate clickable days */
+            cursor: pointer;
+            /* Indicate clickable days */
             transition: background-color 0.2s;
         }
+
         #calendarPage table td:hover {
             background-color: #e2e8f0;
         }
+
         #calendarPage table td.current-day {
-            background-color: #dbeafe; /* Light blue for current day */
+            background-color: #dbeafe;
+            /* Light blue for current day */
             border: 1px solid #93c5fd;
             font-weight: 600;
         }
+
         #calendarPage table td div {
-            font-size: 0.75rem; /* text-xs */
-            line-height: 1rem; /* leading-none */
+            font-size: 0.75rem;
+            /* text-xs */
+            line-height: 1rem;
+            /* leading-none */
             position: absolute;
             bottom: 5px;
             left: 0;
             right: 0;
-            white-space: nowrap; /* Prevent wrapping */
-            overflow: hidden; /* Hide overflow */
-            text-overflow: ellipsis; /* Add ellipsis */
-            padding: 0 4px; /* Small padding */
+            white-space: nowrap;
+            /* Prevent wrapping */
+            overflow: hidden;
+            /* Hide overflow */
+            text-overflow: ellipsis;
+            /* Add ellipsis */
+            padding: 0 4px;
+            /* Small padding */
         }
 
         /* Animation for modals */
         @keyframes fadeIn {
-            from { opacity: 0; transform: translateY(-20px); }
-            to { opacity: 1; transform: translateY(0); }
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         /* Sidebar hidden by default on all screens, controlled by JS */
         .sidebar {
             display: none;
-            position: fixed; /* Fixed position for overlay */
+            position: fixed;
+            /* Fixed position for overlay */
             top: 0;
             left: 0;
             height: 100%;
             z-index: 999;
             transition: transform 0.3s ease-out;
-            transform: translateX(-100%); /* Start off-screen */
+            transform: translateX(-100%);
+            /* Start off-screen */
         }
+
         .sidebar.active {
-            transform: translateX(0%); /* Slide in */
-            display: flex; /* Override display:none */
+            transform: translateX(0%);
+            /* Slide in */
+            display: flex;
+            /* Override display:none */
         }
 
         /* Overlay for mobile sidebar */
@@ -141,25 +194,31 @@
             background-color: rgba(0, 0, 0, 0.5);
             z-index: 998;
         }
+
         .sidebar-overlay.active {
             display: block;
         }
 
         /* Main content adjusts when sidebar is active on mobile */
         @media (max-width: 600px) {
-          .sidebar {
-              width: 50vw; /* sidebar hanya 70% lebar layar pada HP */
-              max-width: 300px;
-              min-width: 180px;
-              /* bisa juga pakai width: 80%; */
-          }
+            .sidebar {
+                width: 50vw;
+                /* sidebar hanya 70% lebar layar pada HP */
+                max-width: 300px;
+                min-width: 180px;
+                /* bisa juga pakai width: 80%; */
+            }
         }
 
         /* Login Screen Styles */
-        #loginScreen { background: linear-gradient(to bottom right, #f8fafc, #e2e8f0); /* Gradient background */
+        #loginScreen {
+            background: linear-gradient(to bottom right, #f8fafc, #e2e8f0);
+            /* Gradient background */
         }
+
         #loginScreen .login-card {
-            background-color: rgba(255, 255, 255, 0.95); /* Slightly transparent white */
+            background-color: rgba(255, 255, 255, 0.95);
+            /* Slightly transparent white */
             padding: 2.5rem;
             border-radius: 1.5rem;
             box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
@@ -168,8 +227,10 @@
             text-align: center;
             animation: fadeIn 0.5s ease-out;
         }
+
         #loginScreen input {
-            background-color: #f8fafc; /* Light input background */
+            background-color: #f8fafc;
+            /* Light input background */
             border: 1px solid #e2e8f0;
             padding: 0.8rem 1rem;
             border-radius: 0.5rem;
@@ -177,13 +238,17 @@
             margin-bottom: 1rem;
             transition: border-color 0.2s, box-shadow 0.2s;
         }
+
         #loginScreen input:focus {
-            border-color: #3b82f6; /* Indigo focus */
+            border-color: #3b82f6;
+            /* Indigo focus */
             box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
             outline: none;
         }
+
         #loginScreen button {
-            background-color: #3b82f6; /* Indigo button */
+            background-color: #3b82f6;
+            /* Indigo button */
             color: white;
             padding: 0.8rem 1.5rem;
             border-radius: 0.75rem;
@@ -191,10 +256,13 @@
             transition: background-color 0.2s, transform 0.2s;
             box-shadow: 0 5px 10px rgba(99, 102, 241, 0.3);
         }
+
         #loginScreen button:hover {
-            background-color: #2563eb; /* Darker indigo on hover */
+            background-color: #2563eb;
+            /* Darker indigo on hover */
             transform: translateY(-2px);
         }
+
         #loginScreen .error-message {
             color: #ef4444;
             font-size: 0.875rem;
@@ -203,25 +271,31 @@
         }
 
         #userIcon {
-             background-color: #3b82f6; /* A vibrant indigo/purple */
-             color: white; /* Text color for the initial */
-             /* Ensure it's always visible */
-             display: flex;
-             align-items: center;
-             justify-content: center;
+            background-color: #3b82f6;
+            /* A vibrant indigo/purple */
+            color: white;
+            /* Text color for the initial */
+            /* Ensure it's always visible */
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         /* Adjust userNameInput position for when it's shown */
         #userNameInput {
             /* Remove absolute positioning and let flex handle it */
             position: static;
-            flex-grow: 1; /* Allow it to take available space */
-            width: auto; /* Let flex control width */
-            margin-left: 0.75rem; /* Equivalent to space-x-3 */
+            flex-grow: 1;
+            /* Allow it to take available space */
+            width: auto;
+            /* Let flex control width */
+            margin-left: 0.75rem;
+            /* Equivalent to space-x-3 */
             /* If you still want it to be "over" the display,
                you might need to adjust the flex container or use z-index.
                For a direct replacement, this is simpler. */
         }
+
         body {
             padding-bottom: 70px;
         }
@@ -229,122 +303,196 @@
         /* ... (your existing CSS) ... */
     </style>
 </head>
+
 <body class="flex flex-col lg:flex-row min-h-screen">
 
-    
-<div id="loginScreen" class="flex justify-center items-center min-h-screen bg-white">
-  <div class="bg-white shadow-xl rounded-2xl p-6 w-full max-w-md text-center">
-    <h2 class="text-2xl font-bold text-blue-600 mb-2">Selamat Datang di Zona Pelajar!</h2>
-    <p class="text-gray-600 mb-6">Yuk, kenalan dulu sebelum kita mulai menjelajah.</p>
-    <form id="loginForm" class="space-y-4">
-      <input type="text" id="loginUsername" placeholder="Nama lengkap" required
-             class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-400 focus:outline-none">
-      <input type="email" id="loginPassword" placeholder="Email" required
-             class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-400 focus:outline-none">
-      <p id="loginErrorMessage" class="error-message hidden text-red-500 text-sm"></p>
-      <button type="submit"
-              class="w-full bg-blue-500 text-white py-3 rounded-full font-semibold hover:bg-blue-600 transition duration-200 shadow-md">
-        Masuk Dashboard
-      </button>
-    </form>
-  </div>
-</div>
+
+    <div id="loginScreen" class="flex justify-center items-center min-h-screen bg-white">
+        <div class="bg-white shadow-xl rounded-2xl p-6 w-full max-w-md text-center">
+            <h2 class="text-2xl font-bold text-blue-600 mb-2">Selamat Datang di Zona Pelajar!</h2>
+            <p class="text-gray-600 mb-6">Yuk, kenalan dulu sebelum kita mulai menjelajah.</p>
+            <form id="loginForm" class="space-y-4">
+                <input type="text" id="loginUsername" placeholder="Nama lengkap" required
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-400 focus:outline-none">
+                <input type="email" id="loginPassword" placeholder="Email" required
+                    class="w-full p-3 border border-gray-300 rounded-lg focus:ring-blue-400 focus:outline-none">
+                <p id="loginErrorMessage" class="error-message hidden text-red-500 text-sm"></p>
+                <button type="submit"
+                    class="w-full bg-blue-500 text-white py-3 rounded-full font-semibold hover:bg-blue-600 transition duration-200 shadow-md">
+                    Masuk Dashboard
+                </button>
+            </form>
+        </div>
+    </div>
 
 
     <div id="appContainer" class="flex flex-col lg:flex-row min-h-screen w-full hidden">
         <div class="sidebar-overlay" id="sidebarOverlay"></div>
-        <aside id="sidebar" class="sidebar w-full lg:w-56 bg-gradient-to-b from-white via-blue-50 to-blue-100 text-blue-800 shadow-lg lg:shadow-xl rounded-b-lg lg:rounded-r-lg p-4 flex flex-col overflow-y-auto max-h-screen hidden lg:flex">
+        <aside id="sidebar"
+            class="sidebar w-full lg:w-56 bg-gradient-to-b from-white via-blue-50 to-blue-100 text-blue-800 shadow-lg lg:shadow-xl rounded-b-lg lg:rounded-r-lg p-4 flex flex-col overflow-y-auto max-h-screen hidden lg:flex">
             <div class="flex items-center justify-between lg:justify-start mb-8">
                 <h1 class="text-2xl font-bold text-blue-600">Zona Pelajar</h1>
-                <button id="sidebarClose" class="lg:hidden p-2 text-blue-800 rounded-md hover:bg-blue-100 hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
-                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>
+                <button id="sidebarClose"
+                    class="lg:hidden p-2 text-blue-800 rounded-md hover:bg-blue-100 hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-teal-500">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12">
+                        </path>
+                    </svg>
                 </button>
             </div>
 
             <nav class="flex-grow">
                 <ul>
                     <li class="mb-2">
-                        <a href="#" id="navDashboard" class="flex items-center p-3 bg-blue-200 text-blue-900 font-semibold rounded-lg hover:bg-blue-300 transition-colors duration-200" data-page="dashboard">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2 2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"></path></svg>
+                        <a href="#" id="navDashboard"
+                            class="flex items-center p-3 bg-blue-200 text-blue-900 font-semibold rounded-lg hover:bg-blue-300 transition-colors duration-200"
+                            data-page="dashboard">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2 2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6">
+                                </path>
+                            </svg>
                             <span>Dashboard</span>
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="#" id="navTasks" class="flex items-center p-3 text-blue-800 rounded-lg font-medium hover:bg-blue-100 hover:text-blue-900 transition-colors duration-200" data-page="tasks">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01"></path></svg>
+                        <a href="#" id="navTasks"
+                            class="flex items-center p-3 text-blue-800 rounded-lg font-medium hover:bg-blue-100 hover:text-blue-900 transition-colors duration-200"
+                            data-page="tasks">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01">
+                                </path>
+                            </svg>
                             <span>Pengingat Tugas</span>
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="#" id="navTargets" class="flex items-center p-3 text-blue-800 rounded-lg font-medium hover:bg-blue-100 hover:text-blue-900 transition-colors duration-200" data-page="targets">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path></svg>
+                        <a href="#" id="navTargets"
+                            class="flex items-center p-3 text-blue-800 rounded-lg font-medium hover:bg-blue-100 hover:text-blue-900 transition-colors duration-200"
+                            data-page="targets">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z">
+                                </path>
+                            </svg>
                             <span>Target Mingguan</span>
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="#" id="navCalendar" class="flex items-center p-3 text-blue-800 rounded-lg font-medium hover:bg-blue-100 hover:text-blue-900 transition-colors duration-200" data-page="calendar">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
+                        <a href="#" id="navCalendar"
+                            class="flex items-center p-3 text-blue-800 rounded-lg font-medium hover:bg-blue-100 hover:text-blue-900 transition-colors duration-200"
+                            data-page="calendar">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z">
+                                </path>
+                            </svg>
                             <span>Kalender Agenda</span>
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="#" id="navNotes" class="flex items-center p-3 text-blue-800 rounded-lg font-medium hover:bg-blue-100 hover:text-blue-900 transition-colors duration-200" data-page="notes">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                        <a href="#" id="navNotes"
+                            class="flex items-center p-3 text-blue-800 rounded-lg font-medium hover:bg-blue-100 hover:text-blue-900 transition-colors duration-200"
+                            data-page="notes">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z">
+                                </path>
+                            </svg>
                             <span>Catatan Pelajaran</span>
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="#" id="navTips" class="flex items-center p-3 text-blue-800 rounded-lg font-medium hover:bg-blue-100 hover:text-blue-900 transition-colors duration-200" data-page="tips">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253"></path></svg>
+                        <a href="#" id="navTips"
+                            class="flex items-center p-3 text-blue-800 rounded-lg font-medium hover:bg-blue-100 hover:text-blue-900 transition-colors duration-200"
+                            data-page="tips">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M12 6.253v13m0-13C10.832 5.477 9.246 5 7.5 5S4.168 5.477 3 6.253v13C4.168 18.477 5.754 18 7.5 18s3.332.477 4.5 1.253m0-13C13.168 5.477 14.754 5 16.5 5c1.747 0 3.332.477 4.5 1.253v13C19.832 18.477 18.246 18 16.5 18c-1.746 0-3.332.477-4.5 1.253">
+                                </path>
+                            </svg>
                             <span>Tips Belajar</span>
                         </a>
                     </li>
                     <li class="mb-2">
-                        <a href="#" id="navMotivation" class="flex items-center p-3 text-blue-800 rounded-lg font-medium hover:bg-blue-100 hover:text-blue-900 transition-colors duration-200" data-page="motivation">
-                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.857L12 21l-2.286-6.857L3 12l5.714-2.857L12 3z"></path></svg>
+                        <a href="#" id="navMotivation"
+                            class="flex items-center p-3 text-blue-800 rounded-lg font-medium hover:bg-blue-100 hover:text-blue-900 transition-colors duration-200"
+                            data-page="motivation">
+                            <svg class="w-5 h-5 mr-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                                xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                    d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.857L12 21l-2.286-6.857L3 12l5.714-2.857L12 3z">
+                                </path>
+                            </svg>
                             <span>Motivasi & Reward</span>
                         </a>
                     </li>
                 </ul>
             </nav>
             <div class="mt-auto p-4">
-                <button id="logoutButton" class="w-full bg-red-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors duration-200 shadow-md">
+                <button id="logoutButton"
+                    class="w-full bg-red-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors duration-200 shadow-md">
                     Logout
                 </button>
             </div>
         </aside>
 
-            <div class="flex-grow flex flex-col">
-                <header class="bg-white shadow-sm p-4 flex items-center justify-between">
-                    <button id="sidebarToggle" class="p-2 text-blue-800 rounded-md hover:bg-blue-100 hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
-                        <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
-                    </button>
+        <div class="flex-grow flex flex-col">
+            <header class="bg-white shadow-sm p-4 flex items-center justify-between">
+                <button id="sidebarToggle"
+                    class="p-2 text-blue-800 rounded-md hover:bg-blue-100 hover:text-blue-900 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                    <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                            d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
 
-                    <div class="flex items-center space-x-3"> 
-                        <div class="user-info flex items-center space-x-2"><div id="userIcon" class="w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold">
-                                <span id="userInitial">U</span>                        
+                <div class="flex items-center space-x-3">
+                    <div class="user-info flex items-center space-x-2">
+                        <div id="userIcon"
+                            class="w-8 h-8 flex items-center justify-center rounded-full text-sm font-semibold">
+                            <span id="userInitial">U</span>
                         </div>
-                        <span id="userNameDisplay" class="font-semibold text-gray-800 text-lg cursor-pointer hover:text-indigo-600 transition-colors">Nama Pengguna</span>
+                        <span id="userNameDisplay"
+                            class="font-semibold text-gray-800 text-lg cursor-pointer hover:text-indigo-600 transition-colors">Nama
+                            Pengguna</span>
                     </div>
-                    <div class="relative hidden"> 
-                        <span id="userNameDisplay" class="font-semibold text-gray-800 text-lg cursor-pointer hover:text-indigo-600 transition-colors">Nama Pengguna</span>
-                        <input type="text" id="userNameInput" class="absolute top-0 left-0 w-full p-1 border border-gray-300 rounded-md hidden" placeholder="Masukkan nama">
+                    <div class="relative hidden">
+                        <span id="userNameDisplay"
+                            class="font-semibold text-gray-800 text-lg cursor-pointer hover:text-indigo-600 transition-colors">Nama
+                            Pengguna</span>
+                        <input type="text" id="userNameInput"
+                            class="absolute top-0 left-0 w-full p-1 border border-gray-300 rounded-md hidden"
+                            placeholder="Masukkan nama">
                     </div>
                 </div>
             </header>
 
             <main class="flex-grow p-6 lg:p-8">
                 <div id="dashboardPage" class="page-content active">
-                    <section class="bg-gradient-to-r from-indigo-600 to-blue-700 text-white p-6 rounded-xl shadow-lg mb-8">
-                        <h2 class="text-3xl font-semibold mb-2">Hai, <span id="dashboardUserName">Pelajar Hebat</span>! 👋</h2>
-                        <p class="text-lg opacity-90">Selamat datang kembali di Zona Pelajar! Mari raih targetmu hari ini.</p>
+                    <section
+                        class="bg-gradient-to-r from-indigo-600 to-blue-700 text-white p-6 rounded-xl shadow-lg mb-8">
+                        <h2 class="text-3xl font-semibold mb-2">Hai, <span id="dashboardUserName">Pelajar Hebat</span>!
+                            👋</h2>
+                        <p class="text-lg opacity-90">Selamat datang kembali di Zona Pelajar! Mari raih targetmu hari
+                            ini.</p>
                     </section>
 
                     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                         <div class="bg-white p-6 rounded-xl shadow-md">
                             <div class="flex items-center justify-between mb-4">
                                 <h3 class="text-xl font-semibold text-gray-800">Tugas Mendatang</h3>
-                                <a href="#" class="text-sm text-indigo-600 hover:underline" data-page="tasks">Lihat Semua</a>
+                                <a href="#" class="text-sm text-indigo-600 hover:underline" data-page="tasks">Lihat
+                                    Semua</a>
                             </div>
                             <ul id="dashboardUpcomingTasks" class="space-y-3">
                                 <li class="text-gray-500">Memuat tugas...</li>
@@ -357,7 +505,9 @@
                                 <p class="text-gray-500">Memuat target...</p>
                             </div>
                             <div class="text-center mt-6">
-                                <button class="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 shadow-md" data-page="targets">
+                                <button
+                                    class="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 shadow-md"
+                                    data-page="targets">
                                     Lihat Target Lengkap
                                 </button>
                             </div>
@@ -368,14 +518,17 @@
                             <p id="dailyMotivationQuote" class="text-gray-700 italic text-center">
                                 "Kesuksesan adalah jumlah dari upaya-upil, yang diulang hari demi hari."
                             </p>
-                            <p id="dailyMotivationAuthor" class="text-right text-sm text-gray-500 mt-3">- Robert Collier</p>
+                            <p id="dailyMotivationAuthor" class="text-right text-sm text-gray-500 mt-3">- Robert Collier
+                            </p>
                         </div>
 
                         <div class="bg-white p-6 rounded-xl shadow-md md:col-span-2 lg:col-span-2">
                             <h3 class="text-xl font-semibold text-gray-800 mb-4">Catatan Terbaru</h3>
                             <p class="text-gray-500">Belum ada catatan terbaru. Yuk, mulai tulis catatanmu!</p>
                             <div class="mt-4 text-center">
-                                <button class="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-indigo-600 transition-colors duration-200 shadow-md" data-page="notes">
+                                <button
+                                    class="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-indigo-600 transition-colors duration-200 shadow-md"
+                                    data-page="notes">
                                     Buat Catatan Baru
                                 </button>
                             </div>
@@ -390,25 +543,39 @@
                         <h3 class="text-xl font-semibold text-gray-800 mb-4">Tambah Tugas Baru</h3>
                         <form id="addTaskForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label for="taskName" class="block text-sm font-medium text-gray-700 mb-1">Nama Tugas</label>
-                                <input type="text" id="taskName" name="taskName" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="Contoh: PR Matematika" required>
+                                <label for="taskName" class="block text-sm font-medium text-gray-700 mb-1">Nama
+                                    Tugas</label>
+                                <input type="text" id="taskName" name="taskName"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                    placeholder="Contoh: PR Matematika" required>
                             </div>
                             <div>
-                                <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Mata Pelajaran</label>
-                                <select id="subject" name="subject" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required>
-                                    </select>
+                                <label for="subject" class="block text-sm font-medium text-gray-700 mb-1">Mata
+                                    Pelajaran</label>
+                                <select id="subject" name="subject"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                    required>
+                                </select>
                             </div>
                             <div>
-                                <label for="deadlineDate" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Tenggat</label>
-                                <input type="date" id="deadlineDate" name="deadlineDate" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required>
+                                <label for="deadlineDate" class="block text-sm font-medium text-gray-700 mb-1">Tanggal
+                                    Tenggat</label>
+                                <input type="date" id="deadlineDate" name="deadlineDate"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                    required>
                             </div>
                             <div>
-                                <label for="deadlineTime" class="block text-sm font-medium text-gray-700 mb-1">Waktu Tenggat</label>
-                                <input type="time" id="deadlineTime" name="deadlineTime" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required>
+                                <label for="deadlineTime" class="block text-sm font-medium text-gray-700 mb-1">Waktu
+                                    Tenggat</label>
+                                <input type="time" id="deadlineTime" name="deadlineTime"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                    required>
                             </div>
                             <div>
-                                <label for="priority" class="block text-sm font-medium text-gray-700 mb-1">Prioritas</label>
-                                <select id="priority" name="priority" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                                <label for="priority"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Prioritas</label>
+                                <select id="priority" name="priority"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
                                     <option value="rendah">Rendah</option>
                                     <option value="sedang">Sedang</option>
                                     <option value="tinggi">Tinggi</option>
@@ -416,11 +583,15 @@
                                 </select>
                             </div>
                             <div class="md:col-span-2">
-                                <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Tambahan (Opsional)</label>
-                                <textarea id="description" name="description" rows="3" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="Detail tugas, misalnya: Halaman 50-55, nomor 1-10"></textarea>
+                                <label for="description" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi
+                                    Tambahan (Opsional)</label>
+                                <textarea id="description" name="description" rows="3"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                    placeholder="Detail tugas, misalnya: Halaman 50-55, nomor 1-10"></textarea>
                             </div>
                             <div class="md:col-span-2 text-right">
-                                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                                <button type="submit"
+                                    class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                                     Tambah Tugas
                                 </button>
                             </div>
@@ -447,8 +618,9 @@
                         </div>
 
                         <ul id="taskList" class="space-y-4">
-                            </ul>
-                        <p id="noTasksMessage" class="text-gray-500 text-center mt-4 hidden">Belum ada tugas. Yuk, tambahkan tugas pertamamu!</p>
+                        </ul>
+                        <p id="noTasksMessage" class="text-gray-500 text-center mt-4 hidden">Belum ada tugas. Yuk,
+                            tambahkan tugas pertamamu!</p>
                     </section>
                 </div>
 
@@ -459,15 +631,22 @@
                         <h3 class="text-xl font-semibold text-gray-800 mb-4">Tambah Target Baru</h3>
                         <form id="addTargetForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label for="targetName" class="block text-sm font-medium text-gray-700 mb-1">Nama Target</label>
-                                <input type="text" id="targetName" name="targetName" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" placeholder="Contoh: Belajar Fisika 2 jam" required>
+                                <label for="targetName" class="block text-sm font-medium text-gray-700 mb-1">Nama
+                                    Target</label>
+                                <input type="text" id="targetName" name="targetName"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                    placeholder="Contoh: Belajar Fisika 2 jam" required>
                             </div>
                             <div>
-                                <label for="targetDueDate" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Tenggat</label>
-                                <input type="date" id="targetDueDate" name="targetDueDate" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                                <label for="targetDueDate" class="block text-sm font-medium text-gray-700 mb-1">Tanggal
+                                    Tenggat</label>
+                                <input type="date" id="targetDueDate" name="targetDueDate"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                                    required>
                             </div>
                             <div class="md:col-span-2 text-right">
-                                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 shadow-md">
+                                <button type="submit"
+                                    class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 shadow-md">
                                     Tambah Target
                                 </button>
                             </div>
@@ -479,8 +658,9 @@
                             <h3 class="text-xl font-semibold text-gray-800">Daftar Target Mingguan</h3>
                         </div>
                         <ul id="targetList" class="space-y-4">
-                            </ul>
-                        <p id="noTargetsMessage" class="text-gray-500 text-center mt-4 hidden">Belum ada target mingguan. Yuk, buat target pertamamu!</p>
+                        </ul>
+                        <p id="noTargetsMessage" class="text-gray-500 text-center mt-4 hidden">Belum ada target
+                            mingguan. Yuk, buat target pertamamu!</p>
                     </section>
                 </div>
 
@@ -490,23 +670,35 @@
                         <h3 class="text-xl font-semibold text-gray-800 mb-4">Tambah Agenda Baru</h3>
                         <form id="addAgendaForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label for="agendaName" class="block text-sm font-medium text-gray-700 mb-1">Nama Agenda</label>
-                                <input type="text" id="agendaName" name="agendaName" class="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500" placeholder="Contoh: Ujian Matematika" required>
+                                <label for="agendaName" class="block text-sm font-medium text-gray-700 mb-1">Nama
+                                    Agenda</label>
+                                <input type="text" id="agendaName" name="agendaName"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500"
+                                    placeholder="Contoh: Ujian Matematika" required>
                             </div>
                             <div>
-                                <label for="agendaDate" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Agenda</label>
-                                <input type="date" id="agendaDate" name="agendaDate" class="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500" required>
+                                <label for="agendaDate" class="block text-sm font-medium text-gray-700 mb-1">Tanggal
+                                    Agenda</label>
+                                <input type="date" id="agendaDate" name="agendaDate"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500"
+                                    required>
                             </div>
                             <div>
-                                <label for="agendaTime" class="block text-sm font-medium text-gray-700 mb-1">Waktu Agenda (Opsional)</label>
-                                <input type="time" id="agendaTime" name="agendaTime" class="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500">
+                                <label for="agendaTime" class="block text-sm font-medium text-gray-700 mb-1">Waktu
+                                    Agenda (Opsional)</label>
+                                <input type="time" id="agendaTime" name="agendaTime"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500">
                             </div>
                             <div class="md:col-span-2">
-                                <label for="agendaDescription" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi (Opsional)</label>
-                                <textarea id="agendaDescription" name="agendaDescription" rows="3" class="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500" placeholder="Detail agenda, lokasi, dll."></textarea>
+                                <label for="agendaDescription"
+                                    class="block text-sm font-medium text-gray-700 mb-1">Deskripsi (Opsional)</label>
+                                <textarea id="agendaDescription" name="agendaDescription" rows="3"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500"
+                                    placeholder="Detail agenda, lokasi, dll."></textarea>
                             </div>
                             <div class="md:col-span-2 text-right">
-                                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-teal-700 transition-colors duration-200 shadow-md">
+                                <button type="submit"
+                                    class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-teal-700 transition-colors duration-200 shadow-md">
                                     Tambah Agenda
                                 </button>
                             </div>
@@ -517,8 +709,10 @@
                         <div class="flex justify-between items-center mb-4">
                             <h3 class="text-xl font-semibold text-gray-800"><span id="currentMonthYear"></span></h3>
                             <div class="flex space-x-2">
-                                <button id="prevMonth" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-300 transition-colors duration-200">Prev</button>
-                                <button id="nextMonth" class="bg-gray-200 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-300 transition-colors duration-200">Next</button>
+                                <button id="prevMonth"
+                                    class="bg-gray-200 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-300 transition-colors duration-200">Prev</button>
+                                <button id="nextMonth"
+                                    class="bg-gray-200 text-gray-700 px-3 py-1 rounded-md hover:bg-gray-300 transition-colors duration-200">Next</button>
                             </div>
                         </div>
                         <div class="overflow-x-auto">
@@ -535,10 +729,11 @@
                                     </tr>
                                 </thead>
                                 <tbody id="calendarBody">
-                                    </tbody>
+                                </tbody>
                             </table>
                         </div>
-                        <p id="noAgendaMessage" class="text-gray-500 text-center mt-4 hidden">Tidak ada agenda untuk bulan ini.</p>
+                        <p id="noAgendaMessage" class="text-gray-500 text-center mt-4 hidden">Tidak ada agenda untuk
+                            bulan ini.</p>
                     </section>
                 </div>
                 <div id="notesPage" class="page-content">
@@ -547,20 +742,30 @@
                         <h3 class="text-xl font-semibold text-gray-800 mb-4">Tambah Catatan Baru</h3>
                         <form id="addNoteForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                             <div>
-                                <label for="noteTitle" class="block text-sm font-medium text-gray-700 mb-1">Judul Catatan</label>
-                                <input type="text" id="noteTitle" name="noteTitle" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="Contoh: Rangkuman Bab 1 Biologi" required>
+                                <label for="noteTitle" class="block text-sm font-medium text-gray-700 mb-1">Judul
+                                    Catatan</label>
+                                <input type="text" id="noteTitle" name="noteTitle"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                    placeholder="Contoh: Rangkuman Bab 1 Biologi" required>
                             </div>
                             <div>
-                                <label for="noteSubject" class="block text-sm font-medium text-gray-700 mb-1">Mata Pelajaran</label>
-                                <select id="noteSubject" name="noteSubject" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required>
-                                    </select>
+                                <label for="noteSubject" class="block text-sm font-medium text-gray-700 mb-1">Mata
+                                    Pelajaran</label>
+                                <select id="noteSubject" name="noteSubject"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                    required>
+                                </select>
                             </div>
                             <div class="md:col-span-2">
-                                <label for="noteContent" class="block text-sm font-medium text-gray-700 mb-1">Isi Catatan</label>
-                                <textarea id="noteContent" name="noteContent" rows="8" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" placeholder="Tulis catatanmu di sini..."></textarea>
+                                <label for="noteContent" class="block text-sm font-medium text-gray-700 mb-1">Isi
+                                    Catatan</label>
+                                <textarea id="noteContent" name="noteContent" rows="8"
+                                    class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                                    placeholder="Tulis catatanmu di sini..."></textarea>
                             </div>
                             <div class="md:col-span-2 text-right">
-                                <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                                <button type="submit"
+                                    class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                                     Simpan Catatan
                                 </button>
                             </div>
@@ -572,11 +777,12 @@
                             <h3 class="text-xl font-semibold text-gray-800">Daftar Catatan</h3>
                             <select id="filterNotesSubject" class="p-2 border border-gray-300 rounded-md text-sm">
                                 <option value="all">Filter Mapel</option>
-                                </select>
+                            </select>
                         </div>
                         <ul id="notesList" class="space-y-4">
-                            </ul>
-                        <p id="noNotesMessage" class="text-gray-500 text-center mt-4 hidden">Belum ada catatan. Yuk, buat catatan pertamamu!</p>
+                        </ul>
+                        <p id="noNotesMessage" class="text-gray-500 text-center mt-4 hidden">Belum ada catatan. Yuk,
+                            buat catatan pertamamu!</p>
                     </section>
                 </div>
 
@@ -587,42 +793,82 @@
                         <ul class="space-y-4 text-gray-700">
                             <li class="bg-blue-50 p-4 rounded-lg shadow-sm">
                                 <h4 class="font-semibold text-lg mb-1">1. Buat Jadwal Belajar</h4>
-                                <p class="text-sm">Atur waktu belajarmu secara teratur setiap hari. Konsisten itu kunci!</p>
+                                <p class="text-sm">Atur waktu belajarmu secara teratur setiap hari. Konsisten itu kunci!
+                                </p>
                             </li>
                             <li class="bg-green-50 p-4 rounded-lg shadow-sm">
                                 <h4 class="font-semibold text-lg mb-1">2. Pahami, Jangan Menghafal</h4>
-                                <p class="text-sm">Coba jelaskan materi dengan katamu sendiri. Jika kamu bisa mengajarkannya, berarti kamu paham!</p>
+                                <p class="text-sm">Coba jelaskan materi dengan katamu sendiri. Jika kamu bisa
+                                    mengajarkannya, berarti kamu paham!</p>
                             </li>
                             <li class="bg-yellow-50 p-4 rounded-lg shadow-sm">
                                 <h4 class="font-semibold text-lg mb-1">3. Istirahat yang Cukup</h4>
-                                <p class="text-sm">Otakmu butuh istirahat. Tidur 7-8 jam sehari akan meningkatkan fokus dan daya ingatmu.</p>
+                                <p class="text-sm">Otakmu butuh istirahat. Tidur 7-8 jam sehari akan meningkatkan fokus
+                                    dan daya ingatmu.</p>
                             </li>
                             <li class="bg-blue-50 p-4 rounded-lg shadow-sm">
                                 <h4 class="font-semibold text-lg mb-1">4. Hindari Multitasking</h4>
-                                <p class="text-sm">Fokus pada satu tugas pada satu waktu. Multitasking justru membuatmu kurang efisien.</p>
+                                <p class="text-sm">Fokus pada satu tugas pada satu waktu. Multitasking justru membuatmu
+                                    kurang efisien.</p>
                             </li>
                             <li class="bg-red-50 p-4 rounded-lg shadow-sm">
                                 <h4 class="font-semibold text-lg mb-1">5. Jangan Takut Bertanya</h4>
-                                <p class="text-sm">Jika ada yang tidak kamu mengerti, jangan ragu bertanya kepada guru atau teman.</p>
+                                <p class="text-sm">Jika ada yang tidak kamu mengerti, jangan ragu bertanya kepada guru
+                                    atau teman.</p>
                             </li>
                         </ul>
                     </section>
                 </div>
                 <div id="motivationPage" class="page-content">
                     <h2 class="text-3xl font-bold text-gray-800 mb-8">Motivasi & Reward ⭐</h2>
-                    <section class="bg-white p-6 rounded-xl shadow-md">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Kutipan Motivasi Harian ✨</h3>
-                        <p id="motivationPageQuote" class="text-gray-700 italic text-center text-lg mb-4">
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                        <!-- Kolom Motivasi -->
+                        <section class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Kutipan Motivasi Harian ✨</h3>
+                            <p id="motivationPageQuote" class="text-gray-700 italic text-center text-lg mb-4">
+                                "Kamu hebat! Jangan pernah menyerah."
                             </p>
-                        <p id="motivationPageAuthor" class="text-right text-sm text-gray-500">
+                            <p id="motivationPageAuthor" class="text-right text-sm text-gray-500">
+                                - Tim Zona Pelajar
                             </p>
-                        <div class="mt-8 text-center">
-                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Sistem Reward (Segera Hadir) 🏆</h3>
-                            <p class="text-gray-700">Kami sedang mengembangkan sistem penghargaan untuk setiap pencapaian belajarmu!</p>
-                            <p class="text-gray-500 text-sm mt-2">Dapatkan lencana dan poin saat kamu menyelesaikan tugas dan target.</p>
-                        </div>
-                    </section>
+                        </section>
+
+                        <!-- Kolom Reward -->
+                        <section class="bg-white p-6 rounded-xl shadow-md">
+                            <h3 class="text-xl font-semibold text-gray-800 mb-4">Reward & Lencana 🎖️</h3>
+                            <ul class="space-y-4">
+                                <li class="flex items-center justify-between bg-blue-50 px-4 py-3 rounded-lg shadow-sm">
+                                    <span class="font-medium text-blue-800">🎯 Menyelesaikan 1 Target</span>
+                                    <span class="text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full">+10
+                                        XP</span>
+                                </li>
+                                <li
+                                    class="flex items-center justify-between bg-yellow-50 px-4 py-3 rounded-lg shadow-sm">
+                                    <span class="font-medium text-yellow-800">📚 Selesai 3 Catatan</span>
+                                    <span class="text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full">+20
+                                        XP</span>
+                                </li>
+                                <li
+                                    class="flex items-center justify-between bg-indigo-50 px-4 py-3 rounded-lg shadow-sm">
+                                    <span class="font-medium text-indigo-800">📝 Tugas Pertama Selesai</span>
+                                    <span class="text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full">+5
+                                        XP</span>
+                                </li>
+                                <li class="flex items-center justify-between bg-pink-50 px-4 py-3 rounded-lg shadow-sm">
+                                    <span class="font-medium text-pink-800">🔥 Aktif 7 Hari Berturut-turut</span>
+                                    <span class="text-sm bg-green-100 text-green-700 px-3 py-1 rounded-full">+50
+                                        XP</span>
+                                </li>
+                            </ul>
+                            <p class="text-xs text-gray-500 mt-4 text-center">Reward akan otomatis muncul berdasarkan
+                                progres kamu ✨</p>
+                            <p id="xpDisplay" class="text-sm text-center text-blue-800 font-semibold mt-4">Total XP: 0
+                            </p>
+                            <ul id="badgeList" class="space-y-2 mt-2"></ul>
+                        </section>
+                    </div>
                 </div>
+
             </main>
         </div>
     </div>
@@ -630,29 +876,40 @@
     <div id="editTaskModal" class="modal">
         <div class="modal-content">
             <span class="close-button" data-modal="editTaskModal">&times;</span>
-            <h3 class="text-xl font-semibold text-gray-800 mb-4">Edit Tugas</h3>
+            <h3 class="text-xl font-semibold text-grayAA-800 mb-4">Edit Tugas</h3>
             <form id="editTaskForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input type="hidden" id="editTaskId">
                 <div>
                     <label for="editTaskName" class="block text-sm font-medium text-gray-700 mb-1">Nama Tugas</label>
-                    <input type="text" id="editTaskName" name="editTaskName" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required>
+                    <input type="text" id="editTaskName" name="editTaskName"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                        required>
                 </div>
                 <div>
                     <label for="editSubject" class="block text-sm font-medium text-gray-700 mb-1">Mata Pelajaran</label>
-                    <select id="editSubject" name="editSubject" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required>
-                        </select>
+                    <select id="editSubject" name="editSubject"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                        required>
+                    </select>
                 </div>
                 <div>
-                    <label for="editDeadlineDate" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Tenggat</label>
-                    <input type="date" id="editDeadlineDate" name="editDeadlineDate" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required>
+                    <label for="editDeadlineDate" class="block text-sm font-medium text-gray-700 mb-1">Tanggal
+                        Tenggat</label>
+                    <input type="date" id="editDeadlineDate" name="editDeadlineDate"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                        required>
                 </div>
                 <div>
-                    <label for="editDeadlineTime" class="block text-sm font-medium text-gray-700 mb-1">Waktu Tenggat</label>
-                    <input type="time" id="editDeadlineTime" name="editDeadlineTime" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required>
+                    <label for="editDeadlineTime" class="block text-sm font-medium text-gray-700 mb-1">Waktu
+                        Tenggat</label>
+                    <input type="time" id="editDeadlineTime" name="editDeadlineTime"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                        required>
                 </div>
                 <div>
                     <label for="editPriority" class="block text-sm font-medium text-gray-700 mb-1">Prioritas</label>
-                    <select id="editPriority" name="editPriority" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
+                    <select id="editPriority" name="editPriority"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500">
                         <option value="rendah">Rendah</option>
                         <option value="sedang">Sedang</option>
                         <option value="tinggi">Tinggi</option>
@@ -660,11 +917,14 @@
                     </select>
                 </div>
                 <div class="md:col-span-2">
-                    <label for="editDescription" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Tambahan (Opsional)</label>
-                    <textarea id="editDescription" name="editDescription" rows="3" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                    <label for="editDescription" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi Tambahan
+                        (Opsional)</label>
+                    <textarea id="editDescription" name="editDescription" rows="3"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"></textarea>
                 </div>
                 <div class="md:col-span-2 text-right">
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                    <button type="submit"
+                        class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Simpan Perubahan
                     </button>
                 </div>
@@ -680,14 +940,20 @@
                 <input type="hidden" id="editTargetId">
                 <div>
                     <label for="editTargetName" class="block text-sm font-medium text-gray-700 mb-1">Nama Target</label>
-                    <input type="text" id="editTargetName" name="editTargetName" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                    <input type="text" id="editTargetName" name="editTargetName"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                        required>
                 </div>
                 <div>
-                    <label for="editTargetDueDate" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Tenggat</label>
-                    <input type="date" id="editTargetDueDate" name="editTargetDueDate" class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500" required>
+                    <label for="editTargetDueDate" class="block text-sm font-medium text-gray-700 mb-1">Tanggal
+                        Tenggat</label>
+                    <input type="date" id="editTargetDueDate" name="editTargetDueDate"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:ring-blue-500 focus:border-blue-500"
+                        required>
                 </div>
                 <div class="md:col-span-2 text-right">
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 shadow-md">
+                    <button type="submit"
+                        class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-blue-700 transition-colors duration-200 shadow-md">
                         Simpan Perubahan
                     </button>
                 </div>
@@ -702,20 +968,29 @@
             <form id="editNoteForm" class="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <input type="hidden" id="editNoteId">
                 <div>
-                    <label for="editNoteTitle" class="block text-sm font-medium text-gray-700 mb-1">Judul Catatan</label>
-                    <input type="text" id="editNoteTitle" name="editNoteTitle" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required>
+                    <label for="editNoteTitle" class="block text-sm font-medium text-gray-700 mb-1">Judul
+                        Catatan</label>
+                    <input type="text" id="editNoteTitle" name="editNoteTitle"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                        required>
                 </div>
                 <div>
-                    <label for="editNoteSubject" class="block text-sm font-medium text-gray-700 mb-1">Mata Pelajaran</label>
-                    <select id="editNoteSubject" name="editNoteSubject" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500" required>
-                        </select>
+                    <label for="editNoteSubject" class="block text-sm font-medium text-gray-700 mb-1">Mata
+                        Pelajaran</label>
+                    <select id="editNoteSubject" name="editNoteSubject"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"
+                        required>
+                    </select>
                 </div>
                 <div class="md:col-span-2">
-                    <label for="editNoteContent" class="block text-sm font-medium text-gray-700 mb-1">Isi Catatan</label>
-                    <textarea id="editNoteContent" name="editNoteContent" rows="8" class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"></textarea>
+                    <label for="editNoteContent" class="block text-sm font-medium text-gray-700 mb-1">Isi
+                        Catatan</label>
+                    <textarea id="editNoteContent" name="editNoteContent" rows="8"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:ring-indigo-500 focus:border-indigo-500"></textarea>
                 </div>
                 <div class="md:col-span-2 text-right">
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-colors duration-200 shadow-md">
+                    <button type="submit"
+                        class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-indigo-700 transition-colors duration-200 shadow-md">
                         Simpan Perubahan
                     </button>
                 </div>
@@ -731,27 +1006,38 @@
                 <input type="hidden" id="editAgendaId">
                 <div>
                     <label for="editAgendaName" class="block text-sm font-medium text-gray-700 mb-1">Nama Agenda</label>
-                    <input type="text" id="editAgendaName" name="editAgendaName" class="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500" required>
+                    <input type="text" id="editAgendaName" name="editAgendaName"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500"
+                        required>
                 </div>
                 <div>
-                    <label for="editAgendaDate" class="block text-sm font-medium text-gray-700 mb-1">Tanggal Agenda</label>
-                    <input type="date" id="editAgendaDate" name="editAgendaDate" class="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500" required>
+                    <label for="editAgendaDate" class="block text-sm font-medium text-gray-700 mb-1">Tanggal
+                        Agenda</label>
+                    <input type="date" id="editAgendaDate" name="editAgendaDate"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500"
+                        required>
                 </div>
                 <div>
-                    <label for="editAgendaTime" class="block text-sm font-medium text-gray-700 mb-1">Waktu Agenda (Opsional)</label>
-                    <input type="time" id="editAgendaTime" name="editAgendaTime" class="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500">
+                    <label for="editAgendaTime" class="block text-sm font-medium text-gray-700 mb-1">Waktu Agenda
+                        (Opsional)</label>
+                    <input type="time" id="editAgendaTime" name="editAgendaTime"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500">
                 </div>
                 <div class="md:col-span-2">
-                    <label for="editAgendaDescription" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi (Opsional)</label>
-                    <textarea id="editAgendaDescription" name="editAgendaDescription" rows="3" class="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500"></textarea>
+                    <label for="editAgendaDescription" class="block text-sm font-medium text-gray-700 mb-1">Deskripsi
+                        (Opsional)</label>
+                    <textarea id="editAgendaDescription" name="editAgendaDescription" rows="3"
+                        class="w-full p-2 border border-gray-300 rounded-md focus:ring-teal-500 focus:border-teal-500"></textarea>
                 </div>
                 <div class="md:col-span-2 text-right flex justify-between items-center">
-                    <button type="button" id="deleteAgendaButton" class="bg-red-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors duration-200 shadow-md">
-                    Hapus Agenda
+                    <button type="button" id="deleteAgendaButton"
+                        class="bg-red-600 text-white px-4 py-2 rounded-lg font-semibold hover:bg-red-700 transition-colors duration-200 shadow-md">
+                        Hapus Agenda
                     </button>
-                    <button type="submit" class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-teal-700 transition-colors duration-200 shadow-md">
-                    Simpan Perubahan
-                </button>
+                    <button type="submit"
+                        class="bg-blue-600 text-white px-6 py-2 rounded-lg font-semibold hover:bg-teal-700 transition-colors duration-200 shadow-md">
+                        Simpan Perubahan
+                    </button>
                 </div>
             </form>
         </div>
@@ -761,6 +1047,12 @@
         // --- Global Data Storage ---
         let tasks = [];
         let targets = [];
+        let userXP = 0;
+        let userBadges = [];
+
+        const XP_STORAGE_KEY = 'belajaryuk_userXP';
+        const BADGES_STORAGE_KEY = 'belajaryuk_userBadges';
+
         let notes = [];
         let agenda = [];
         let subjects = ['Matematika', 'Fisika', 'Kimia', 'Biologi', 'Bahasa Indonesia', 'Bahasa Inggris', 'Sejarah', 'Geografi', 'Ekonomi', 'Seni Budaya', 'Akidah Akhlak', 'Al-Quran Hadits', 'Bahasa Arab', 'Bahasa Arab Pilihan', 'Fikih', 'Ilmu Hadits', 'Ilmu Tafsir', 'Informatika', 'Matematika Tingkat Lanjut', 'Pendidikan Pancasila', 'PKWU', 'SKI', 'Sosiologi', 'Tahfidz', 'Ushul Fiqih'];
@@ -878,11 +1170,11 @@
             { quote: "Percayalah pada dirimu sendiri. Kamu lebih berani dari yang kamu kira, lebih berbakat dari yang kamu tahu, dan mampu melakukan lebih dari yang kamu bayangkan.", author: "Roy T. Bennett" }
         ];
 
-        
-function updateUserInitial(name) {
-    const initial = name.trim().charAt(0).toUpperCase();
-    document.getElementById('userInitial').textContent = initial;
-}
+
+        function updateUserInitial(name) {
+            const initial = name.trim().charAt(0).toUpperCase();
+            document.getElementById('userInitial').textContent = initial;
+        }
 
 
         // --- Login/Logout Functions ---
@@ -906,7 +1198,7 @@ function updateUserInitial(name) {
         }
 
         function showAppContainer() {
-    window.scrollTo(0, 0);
+            window.scrollTo(0, 0);
             loginScreen.classList.add('hidden');
             appContainer.classList.remove('hidden');
             loadUserName();
@@ -916,6 +1208,8 @@ function updateUserInitial(name) {
             loadTargets();
             loadNotes();
             loadAgenda();
+            loadRewards();
+            updateRewardDisplay();
             updateDailyMotivation();
             showPage('dashboard'); // Show dashboard by default after login
         }
@@ -961,11 +1255,41 @@ function updateUserInitial(name) {
             dashboardUserName.textContent = name;
         }
 
+        function loadRewards() {
+            userXP = parseInt(localStorage.getItem(XP_STORAGE_KEY)) || 0;
+            userBadges = JSON.parse(localStorage.getItem(BADGES_STORAGE_KEY)) || [];
+        }
+
+        function saveRewards() {
+            localStorage.setItem(XP_STORAGE_KEY, userXP);
+            localStorage.setItem(BADGES_STORAGE_KEY, JSON.stringify(userBadges));
+        }
+
+        function addXP(amount) {
+            userXP += amount;
+            saveRewards();
+            showRewardPopup(`+${amount} XP ditambahkan!`);
+            updateRewardDisplay();
+        }
+
+        function grantBadge(badge) {
+            if (!userBadges.includes(badge)) {
+                userBadges.push(badge);
+                saveRewards();
+                showRewardPopup(`🎉 Kamu mendapat lencana: ${badge}`);
+                updateRewardDisplay();
+            }
+        }
+
+        function showRewardPopup(message) {
+            alert(message); // bisa diganti modal/toast nanti
+        }
+
         userNameDisplay.addEventListener('click', () => {
             // Hide userNameDisplay and show userNameInput
             userNameDisplay.classList.add('hidden');
             userNameInput.classList.remove('hidden');
-    
+
             // Position the input field near the icon
             // Get the current display name's position relative to the viewport
             const displayRect = userNameDisplay.getBoundingClientRect();
@@ -1336,8 +1660,8 @@ function updateUserInitial(name) {
                         const agendasForDay = agenda.filter(item => {
                             const itemDate = new Date(item.date);
                             return itemDate.getDate() === currentDay &&
-                                   itemDate.getMonth() === month &&
-                                   itemDate.getFullYear() === year;
+                                itemDate.getMonth() === month &&
+                                itemDate.getFullYear() === year;
                         });
 
                         if (agendasForDay.length > 0) {
@@ -1480,6 +1804,12 @@ function updateUserInitial(name) {
                     saveTasks();
                     renderTasks();
                     renderDashboardTasks();
+
+                    // Tambahkan di sini:
+                    if (e.target.checked) {
+                        addXP(5); // Tugas pertama selesai dapat 5 XP
+                        grantBadge('Tugas Pertama Selesai');
+                    }
                 }
             }
         });
@@ -1576,6 +1906,12 @@ function updateUserInitial(name) {
                     saveTargets();
                     renderTargets();
                     renderDashboardTargets();
+
+                    // Tambahkan di sini:
+                    if (targets[targetIndex].currentProgress === 10) {
+                        addXP(10); // Selesai 1 target dapat 10 XP
+                        grantBadge('Menyelesaikan 1 Target');
+                    } []
                 }
             } else if (e.target.classList.contains('remove-step-button')) {
                 if (targets[targetIndex].currentProgress > 0) {
@@ -1642,6 +1978,11 @@ function updateUserInitial(name) {
             saveNotes();
             renderNotes();
             addNoteForm.reset();
+            // Tambahkan di sini:
+            if (notes.length === 3) {
+                addXP(20); // Selesai 3 catatan dapat 20 XP
+                grantBadge('Selesai 3 Catatan');
+            }
         });
 
         // Note List (edit, delete)
@@ -1840,19 +2181,20 @@ function updateUserInitial(name) {
             pages.forEach(page => page.classList.remove('active'));
             document.getElementById(pageId + 'Page').classList.add('active');
 
-        navLinks.forEach(link => {
-            link.classList.remove('bg-blue-200', 'text-blue-900');
-            link.classList.add('text-blue-800');
-        });
-        const activeLink = document.querySelector(`[data-page="${pageId}"]`);
-        if (activeLink) {
-            activeLink.classList.add('bg-blue-200', 'text-blue-900');
-            activeLink.classList.remove('text-blue-800');
-        }
+            navLinks.forEach(link => {
+                link.classList.remove('bg-blue-200', 'text-blue-900');
+                link.classList.add('text-blue-800');
+            });
+            const activeLink = document.querySelector(`[data-page="${pageId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('bg-blue-200', 'text-blue-900');
+                activeLink.classList.remove('text-blue-800');
+            }
 
             // Specific actions when showing certain pages
             if (pageId === 'motivation') {
                 updateDailyMotivation(); // Ensure motivation is updated when page is shown
+                updateRewardDisplay();
             } else if (pageId === 'calendar') {
                 renderCalendar(); // Re-render calendar when page is shown
             }
@@ -1907,50 +2249,79 @@ function updateUserInitial(name) {
         document.addEventListener('DOMContentLoaded', () => {
             checkLoginStatus();
         });
+    </script>
+
+    <nav
+        class="fixed bottom-0 left-0 w-full bg-white border-t shadow-inner flex justify-around items-center py-2 z-50 lg:hidden">
+        <button class="flex flex-col items-center text-xs text-gray-700" data-page="dashboard">
+            <svg class="w-6 h-6 mb-1 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2 2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+            </svg>
+            <span>Beranda</span>
+        </button>
+        <button class="flex flex-col items-center text-xs text-gray-700" data-page="tasks">
+            <svg class="w-6 h-6 mb-1 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" />
+            </svg>
+            <span>Tugas</span>
+        </button>
+        <button class="flex flex-col items-center text-xs text-gray-700" data-page="calendar">
+            <svg class="w-6 h-6 mb-1 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M8 7V3m8 4V3M5 11h14M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+            </svg>
+            <span>Kalender</span>
+        </button>
+        <button class="flex flex-col items-center text-xs text-gray-700" data-page="notes">
+            <svg class="w-6 h-6 mb-1 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2V9a2 2 0 00-2-2h-5z" />
+            </svg>
+            <span>Catatan</span>
+        </button>
+        <button class="flex flex-col items-center text-xs text-gray-700" data-page="motivation">
+            <svg class="w-6 h-6 mb-1 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2"
+                viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round"
+                    d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.857L12 21l-2.286-6.857L3 12l5.714-2.857L12 3z" />
+            </svg>
+            <span>Reward</span>
+        </button>
+    </nav>
+    <script>
+        // Mobile navbar button click
+        document.querySelectorAll('nav button[data-page]').forEach(button => {
+            button.addEventListener('click', () => {
+                const page = button.getAttribute('data-page');
+                showPage(page);
+            });
+        });
+
+        function updateRewardDisplay() {
+            const xpDisplay = document.getElementById("xpDisplay");
+            const badgeList = document.getElementById("badgeList");
+
+            if (xpDisplay) xpDisplay.textContent = `Total XP: ${userXP}`;
+
+            if (badgeList) {
+                badgeList.innerHTML = '';
+                userBadges.forEach(badge => {
+                    const li = document.createElement("li");
+                    li.className = "text-sm text-gray-700 flex items-center gap-2";
+                    li.innerHTML = `🏅 ${badge}`;
+                    badgeList.appendChild(li);
+                });
+            }
+        }
 
     </script>
 
-<nav class="fixed bottom-0 left-0 w-full bg-white border-t shadow-inner flex justify-around items-center py-2 z-50 lg:hidden">
-  <button class="flex flex-col items-center text-xs text-gray-700" data-page="dashboard">
-    <svg class="w-6 h-6 mb-1 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2 2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
-    </svg>
-    <span>Beranda</span>
-  </button>
-  <button class="flex flex-col items-center text-xs text-gray-700" data-page="tasks">
-    <svg class="w-6 h-6 mb-1 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2" />
-    </svg>
-    <span>Tugas</span>
-  </button>
-  <button class="flex flex-col items-center text-xs text-gray-700" data-page="calendar">
-    <svg class="w-6 h-6 mb-1 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M8 7V3m8 4V3M5 11h14M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-    </svg>
-    <span>Kalender</span>
-  </button>
-  <button class="flex flex-col items-center text-xs text-gray-700" data-page="notes">
-    <svg class="w-6 h-6 mb-1 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2V9a2 2 0 00-2-2h-5z" />
-    </svg>
-    <span>Catatan</span>
-  </button>
-  <button class="flex flex-col items-center text-xs text-gray-700" data-page="motivation">
-    <svg class="w-6 h-6 mb-1 text-indigo-500" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.857L12 21l-2.286-6.857L3 12l5.714-2.857L12 3z" />
-    </svg>
-    <span>Akun</span>
-  </button>
-</nav>
-<script>
-  // Mobile navbar button click
-  document.querySelectorAll('nav button[data-page]').forEach(button => {
-    button.addEventListener('click', () => {
-      const page = button.getAttribute('data-page');
-      showPage(page);
-    });
-  });
-</script>
-
 </body>
+
 </html>
